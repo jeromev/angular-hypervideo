@@ -1,6 +1,6 @@
 {
-  "name": "ngHyperVideo",
-  "version": "0.1.0",
+  "name": "angular-hypervideo",
+  "version": "0.1.2",
   "main": "./angular-hypervideo.js",
   "dependencies": {
     "angular": "^1.3.x",
