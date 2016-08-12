@@ -240,4 +240,118 @@ angular
       link: link
     };
   })
+  .run(['$templateCache', function($templateCache) {
+    $templateCache.put('views/scene.html',
+      "<article\n" +
+      "    class=\"scene\"\n" +
+      "    id=\"scene\"\n" +
+      "    data-my-watch-scroll=\"\"\n" +
+      "    data-ng-class=\"scene.id\"\n" +
+      "  >\n" +
+      "  <section\n" +
+      "      class=\"shot {{shot.class}}\"\n" +
+      "      data-ng-repeat=\"shot in scene.shots\"\n" +
+      "      id=\"{{shot.id}}\"\n" +
+      "      data-ng-class=\"{on:$first}\"\n" +
+      "      data-my-shot-on=\"\"\n" +
+      "    >\n" +
+      "    <div\n" +
+      "        class=\"content\"\n" +
+      "        data-ng-click=\"vgPlayPause()\"\n" +
+      "      >\n" +
+      "      <div\n" +
+      "          class=\"inner\"\n" +
+      "        >\n" +
+      "        <header\n" +
+      "            data-ng-hide=\"!shot.header\"\n" +
+      "            data-ng-bind-html=\"shot.header | markdown\"\n" +
+      "          >\n" +
+      "        </header>\n" +
+      "        <div\n" +
+      "            class=\"body\"\n" +
+      "            data-ng-hide=\"!shot.body\"\n" +
+      "            data-ng-bind-html=\"shot.body | markdown\"\n" +
+      "          >\n" +
+      "        </div>\n" +
+      "      </div>\n" +
+      "    </div>\n" +
+      "    <nav>\n" +
+      "      <ul>\n" +
+      "        <li\n" +
+      "            class=\"scene-previous\"\n" +
+      "            data-ng-hide=\"!scene.previousInt\"\n" +
+      "          >\n" +
+      "          <a\n" +
+      "              data-ng-href=\"/scene/{{scene.previousInt}}\"\n" +
+      "            >\n" +
+      "            <span\n" +
+      "                class=\"hide-text\"\n" +
+      "              >\n" +
+      "              Previous scene\n" +
+      "            </span>\n" +
+      "          </a>\n" +
+      "        </li>\n" +
+      "        <li\n" +
+      "            class=\"shot-previous\"\n" +
+      "            data-ng-hide=\"!shot.previousId\"\n" +
+      "          >\n" +
+      "          <a\n" +
+      "              data-ng-href=\"#{{shot.previousId}}\"\n" +
+      "              data-ng-click=\"scrollTo(shot.previousId)\"\n" +
+      "            >\n" +
+      "            <span\n" +
+      "                class=\"hide-text\"\n" +
+      "              >\n" +
+      "              Previous shot\n" +
+      "            </span>\n" +
+      "          </a>\n" +
+      "        </li>\n" +
+      "        <li\n" +
+      "            class=\"shot-next\"\n" +
+      "            data-ng-hide=\"!shot.nextId\"\n" +
+      "          >\n" +
+      "          <a\n" +
+      "              data-ng-href=\"#{{shot.nextId}}\"\n" +
+      "              data-ng-click=\"scrollTo(shot.nextId)\"\n" +
+      "            >\n" +
+      "            <span\n" +
+      "                class=\"hide-text\"\n" +
+      "              >\n" +
+      "              Next shot\n" +
+      "            </span>\n" +
+      "          </a>\n" +
+      "        </li>\n" +
+      "      </ul>\n" +
+      "    </nav>\n" +
+      "  </section>\n" +
+      "  <figure\n" +
+      "      id=\"video\"\n" +
+      "    >\n" +
+      "    <videogular\n" +
+      "        data-vg-player-ready=\"vgOnPlayerReady($API)\"\n" +
+      "        data-vg-cue-points=\"vgConfig.cuePoints\"\n" +
+      "        data-vg-auto-play=\"vgConfig.autoPlay\"\n" +
+      "        data-vg-loop=\"vgConfig.loop\"\n" +
+      "      >\n" +
+      "      <vg-media\n" +
+      "          data-vg-src=\"vgConfig.sources\"\n" +
+      "          data-vg-youtube=\"rel=0;showinfo=0\"\n" +
+      "        >\n" +
+      "      </vg-media>\n" +
+      "      <vg-controls>\n" +
+      "				<vg-scrub-bar>\n" +
+      "          <vg-scrub-bar-buffer></vg-scrub-bar-buffer>\n" +
+      "					<vg-scrub-bar-current-time></vg-scrub-bar-current-time>\n" +
+      "          <vg-cuepoints\n" +
+      "              data-vg-cuepoints-config=\"vgConfig.plugins.cuepoints\"\n" +
+      "            >\n" +
+      "          </vg-cuepoints>\n" +
+      "				</vg-scrub-bar>\n" +
+      "			</vg-controls>\n" +
+      "      <vg-buffering></vg-buffering>\n" +
+      "    </videogular>\n" +
+      "  </figure>\n" +
+      "</article>\n"
+    );
+  }])
 ;
