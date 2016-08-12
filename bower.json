@@ -8,6 +8,6 @@
     "videogular": "^1.4.4",
     "videogular-buffering": "^1.4.4",
     "videogular-controls": "^1.4.4",
-    "videogular-cuepoints": "*"    
+    "videogular-cuepoints": "*"
   }
 }
