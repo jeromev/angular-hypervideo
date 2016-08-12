@@ -1,0 +1,13 @@
+{
+  "name": "ngHyperVideo",
+  "version": "0.1.0",
+  "main": "./angular-hypervideo.js",
+  "dependencies": {
+    "angular": "^1.3.x",
+    "angular-sanitize": "^1.3.x",
+    "videogular": "^1.4.4",
+    "videogular-buffering": "^1.4.4",
+    "videogular-controls": "^1.4.4",
+    "videogular-cuepoints": "*"    
+  }
+}
