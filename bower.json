@@ -14,5 +14,13 @@
   "authors": [
     "Jerome Vogel <jerome.vogel@gmail.com>"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "description": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }
