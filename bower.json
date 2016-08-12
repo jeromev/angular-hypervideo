@@ -9,5 +9,10 @@
     "videogular-buffering": "^1.4.4",
     "videogular-controls": "^1.4.4",
     "videogular-cuepoints": "*"
-  }
+  },
+  "homepage": "https://github.com/jeromev/angular-hypervideo",
+  "authors": [
+    "Jerome Vogel <jerome.vogel@gmail.com>"
+  ],
+  "license": "MIT"
 }
