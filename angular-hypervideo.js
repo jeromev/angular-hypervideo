@@ -1,11 +1,11 @@
 /**
- * @license ngHyperVideo
+ * @license angular-hypervideo
  * Jérôme Vogel https://github.com/jeromev
  * License: MIT
  */
 'use strict';
 angular
-  .module('ngHyperVideo', [
+  .module('angular-hypervideo', [
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.buffering',
