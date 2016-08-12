@@ -4,6 +4,7 @@
  * License: MIT
  */
 'use strict';
+
 angular
   .module('angular-hypervideo', [
     'com.2fdevs.videogular',
@@ -240,6 +241,19 @@ angular
       link: link
     };
   })
+  .directive('myBackground', function() {
+    function link($scope, $element, $attributs) {
+      if (Modernizr.touchevents) {
+        $element.css({
+          'background-image': 'url(' + $attributs.myBackground + ')'
+        });
+      }
+    }
+    return {
+      restrict: 'A',
+      link: link
+    };
+  })
   .run(['$templateCache', function($templateCache) {
     $templateCache.put('views/scene.html',
       "<article\n" +
@@ -253,6 +267,7 @@ angular
       "      data-ng-repeat=\"shot in scene.shots\"\n" +
       "      id=\"{{shot.id}}\"\n" +
       "      data-ng-class=\"{on:$first}\"\n" +
+      "      data-my-background=\"{{shot.poster}}\"\n" +
       "      data-my-shot-on=\"\"\n" +
       "    >\n" +
       "    <div\n" +
