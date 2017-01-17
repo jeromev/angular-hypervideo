@@ -102,76 +102,80 @@ angular
       });
       $http
         // look for /data/scene-xxx.json file
-        .get('/data/scene-' + $scope.sceneCurrentId + '.json')
-        .success(function(data) {
-          //
-          var shots = [];
-          var cuepoints = [];
-          // make the data accessible within the scope
-          $scope.scene = data;
-          // construct the shots; for each shot…
-          $scope.scene.shots.forEach(function(shot, index) {
-            shot.in = parseFloat(shot.in);
-            shot.out = parseFloat(shot.out);
-            // store cue points for the cuepoints plugin
-            cuepoints.push({
-              time: shot.in
+        .get('/data/scene-' + $scope.sceneCurrentId + '.json', {
+          cache: true
+        })
+        .then(
+          function(response) {
+            //
+            var shots = [];
+            var cuepoints = [];
+            // make the data accessible within the scope
+            $scope.scene = response.data;
+            // construct the shots; for each shot…
+            $scope.scene.shots.forEach(function(shot, index) {
+              shot.in = parseFloat(shot.in);
+              shot.out = parseFloat(shot.out);
+              // store cue points for the cuepoints plugin
+              cuepoints.push({
+                time: shot.in
+              });
+              shots.push({
+                // … extract cue points
+                timeLapse: {
+                  start: shot.in,
+                  end: shot.out,
+                  index: index,
+                  loop: shot.loop === '1'? true : false
+                },
+                shotId: shot.id,
+                // set methods
+                onUpdate: function onUpdate(currentTime, timeLapse, params) {
+                  if ($rootScope.vgState === 'play') {
+                    $scope.vgPlay();
+                  }
+                  if (typeof $scope.vgAPI.cuePoints.shots[timeLapse.index] !== 'undefined' && (
+                      $scope.shotIndex !== timeLapse.index || (
+                        currentTime >= timeLapse.end - $scope.latency &&
+                        $scope.vgAPI.cuePoints.shots[$scope.shotIndex].timeLapse.loop === true
+                      )
+                    )) {
+                    $scope.$broadcast('vgUpdate', {
+                      index: timeLapse.index,
+                      moveNeedle: false,
+                      loop: $scope.vgAPI.cuePoints.shots[$scope.shotIndex].timeLapse.loop,
+                      silentScroll: true
+                    });
+                  }
+                }
+              });
             });
-            shots.push({
-              // … extract cue points
-              timeLapse: {
-                start: shot.in,
-                end: shot.out,
-                index: index,
-                loop: shot.loop === '1'? true : false
+            // setup the vg config object
+            $scope.vgConfig = {
+        			controls: false,
+              preload: 'auto',
+              autoPlay: true,
+              loop: true,
+              transclude: true,
+        			sources: [{
+                src: $sce.trustAsResourceUrl($scope.scene.src),
+                // src: 'https://www.youtube.com/watch?v=wN8_eb3l0mw'
+                type: $scope.scene.type
+              }],
+              cuePoints: {
+                shots: shots
               },
-              shotId: shot.id,
-              // set methods
-              onUpdate: function onUpdate(currentTime, timeLapse, params) {
-                if ($rootScope.vgState === 'play') {
-                  $scope.vgPlay();
-                }
-                if (typeof $scope.vgAPI.cuePoints.shots[timeLapse.index] !== 'undefined' && (
-                    $scope.shotIndex !== timeLapse.index || (
-                      currentTime >= timeLapse.end - $scope.latency &&
-                      $scope.vgAPI.cuePoints.shots[$scope.shotIndex].timeLapse.loop === true
-                    )
-                  )) {
-                  $scope.$broadcast('vgUpdate', {
-                    index: timeLapse.index,
-                    moveNeedle: false,
-                    loop: $scope.vgAPI.cuePoints.shots[$scope.shotIndex].timeLapse.loop,
-                    silentScroll: true
-                  });
+              plugins: {
+                cuepoints: {
+                  points: cuepoints
                 }
               }
-            });
-          });
-          // setup the vg config object
-          $scope.vgConfig = {
-      			controls: false,
-            preload: 'auto',
-            autoPlay: true,
-            loop: true,
-            transclude: true,
-      			sources: [{
-              src: $sce.trustAsResourceUrl($scope.scene.src),
-              // src: 'https://www.youtube.com/watch?v=wN8_eb3l0mw'
-              type: $scope.scene.type
-            }],
-            cuePoints: {
-              shots: shots
-            },
-            plugins: {
-              cuepoints: {
-                points: cuepoints
-              }
-            }
-      		};
-        })
-        .error(function(data, status, headers, config) {
-          console.log('cannot load data');
-        })
+        		};
+          },
+          function(response, status, headers, config) {
+            console.log('cannot load data');
+          }
+        )
       ;
       $scope.scrollTo = function scrollTo(id) {
         $location.hash(id).replace();
